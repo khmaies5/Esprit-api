@@ -1,0 +1,18 @@
+{
+    "name": "esprit-api",
+    "main": "server.js",
+    "version": "0.0.1",
+    "description": "esprit-tn api.",
+    "author": "Khmaies Hassen hssen.khmaies@esprit.tn",
+    "dependencies": {
+        "body-parser": "~1.0.1",
+        "cheerio": "1.0.0-rc.2",
+        "cheerio-tableparser": "^1.0.1",
+        "express": "~4.0.0",
+        "express-session": "^1.15.6",
+        "mongoose": "5.0.3",
+        "pbkdf2-password": "^1.2.1",
+        "request": "2.83.0",
+        "request-promise": "^4.2.2"
+    }
+}
