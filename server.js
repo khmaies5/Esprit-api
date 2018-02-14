@@ -89,7 +89,7 @@ function restrict(req, res, next) {
     } else {
         req.session.error = 'Access denied';
         console.log('restricted area');
-        res.redirect('/api/');
+        res.redirect('');
     }
     }
 
