@@ -1184,7 +1184,7 @@ router.route('/absence')
 
 app.use('/api', router);
 app.get('',function(req,res){
-res.send('Welcome to esprit api! to login go to /login');
+res.send('Welcome to esprit api! to login go to /api/login');
 });
 app.listen(process.env.PORT || 8081)
 console.log('Magic happens on port 8081');
