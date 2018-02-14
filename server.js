@@ -1183,7 +1183,7 @@ router.route('/absence')
 
 
 app.use('/api', router);
-app.post('',function(req,res){
+app.get('',function(req,res){
 res.send('Welcome to esprit api! to login go to /login');
 });
 app.listen(process.env.PORT || 8081)
