@@ -29,7 +29,7 @@ var test;
 
 
 
-mongoose.connect('mongodb://username:password@ds046667.mlab.com:46667/espritapp').then(
+mongoose.connect('mongodb://khmaies:4sim3@ds046667.mlab.com:46667/espritapp').then(
     () => {
         /** ready to use. The `mongoose.connect()` promise resolves to undefined. */
         console.log('connected to db');
@@ -107,7 +107,7 @@ router.get('/', function (req, res) {
 
 
 
-//login route
+//login route /login?cin='your cin or id'&password='your password'
 router.post('/login', function (req, res) {
 
     //will log you in to esprit-tn.com so you can access your data (accessed at POST http://localhost:8081/api/login)
