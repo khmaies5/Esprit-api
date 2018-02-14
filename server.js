@@ -89,7 +89,7 @@ function restrict(req, res, next) {
     } else {
         req.session.error = 'Access denied';
         console.log('restricted area');
-        res.redirect('');
+        res.redirect('/welcome');
     }
     }
 
@@ -1186,6 +1186,9 @@ app.use('/api', router);
 app.get('',function(req,res){
 res.send('Welcome to esprit api! to login go to /api/login');
 });
+app.get('/welcome',function(req,res){
+    res.send('Welcome to esprit api! to login go to /api/login');
+    });
 app.listen(process.env.PORT || 8081)
 console.log('Magic happens on port 8081');
 
