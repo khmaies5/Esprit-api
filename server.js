@@ -99,7 +99,7 @@ router.get('/restricted', restrict, function (req, res) {
     res.send('Wahoo! restricted area');
     });
 
-router.get('/', function (req, res) {
+router.get('/', restrict,function (req, res) {
     res.json({
         message: 'hooray! welcome to our api!'
     });
@@ -1183,7 +1183,9 @@ router.route('/absence')
 
 
 app.use('/api', router);
-
+app.post('',function(req,res){
+res.send('Welcome to esprit api! to login go to /login');
+});
 app.listen(process.env.PORT || 8081)
 console.log('Magic happens on port 8081');
 
