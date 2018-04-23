@@ -5,7 +5,7 @@
   "description": "esprit-tn api.",
   "author": "Khmaies Hassen hssen.khmaies@esprit.tn",
   "dependencies": {
-    "body-parser": "~1.17.1",
+    "body-parser": "~1.18.2",
     "cheerio": "1.0.0-rc.2",
     "cheerio-tableparser": "^1.0.1",
     "express": "~4.16.0",
