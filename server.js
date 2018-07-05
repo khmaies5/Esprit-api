@@ -49,6 +49,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
+
 // configure app to use session
 app.use(session({
     resave: false, //don't save session if unmodified
@@ -62,6 +63,13 @@ app.use(session({
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router(); // get an instance of the express Router
+
+app.all('*', function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+  });
 
 
 //Session-presisted message middleware
@@ -112,6 +120,7 @@ router.post('/login', function (req, res) {
 
     //will log you in to esprit-tn.com so you can access your data (accessed at POST http://localhost:8081/api/login)
     //accepts query parametres cin and password
+    console.log("cin ",req.query)
 
     login.setCIN(req.query.cin).then(function () {
         login.setPassword(req.query.password).then(function (credentiel) {
@@ -120,7 +129,10 @@ router.post('/login', function (req, res) {
                 if (user) {
                     req.session.regenerate(function () {
                         req.session.user = user;
-                        res.send(credentiel.name + ' ' + credentiel.grade);
+                        var cred = {name:"",grade:""}
+                        cred.name = credentiel.name
+                        cred.grade = credentiel.grade
+                        res.status(200).send(cred);
                     });
                 } else {
                     login.createUser(req.query.cin, req.query.password, credentiel.name, credentiel.grade).then(function (rep) {
@@ -128,7 +140,8 @@ router.post('/login', function (req, res) {
                             if (user) {
                                 req.session.regenerate(function () {
                                     req.session.user = user;
-                                    res.send(credentiel.name, credentiel.grade);
+                                  //  res.send(credentiel.name, credentiel.grade);
+                                  res.status(200).send("test "+credentiel.name, credentiel.grade)
                                 });
                             } else {
 
@@ -150,8 +163,10 @@ router.post('/login', function (req, res) {
             res.send(err);
         });
     }).catch(function (err) {
+      //  console.log("cin function",err)
+        res.status(500).send("test "+err)
 
-        res.send(err);
+       // res.send(err);
     });
 
     });
@@ -484,9 +499,12 @@ router.route('/resultatprincipale')
                     err
                 });
 
+                console.log("resultat ",resultatp)
+                if(resultatp != null){
             res.json({
                 'resultat principale': resultatp.resultat[0]
             });
+        } else (res.status(200).send("no data"))
         });
     });
 //note langues route

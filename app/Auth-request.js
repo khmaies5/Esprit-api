@@ -12,7 +12,7 @@ var viewStateval;
 var eventValidation;
 var viewStategen;
 var test;
-
+//require('request-promise').debug = true
 
 /**
   var options = {
@@ -46,7 +46,7 @@ module.exports = {
         return cheerio.load(body);
       }
     };
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
 
       requestP(options)
         .then(function ($) {
@@ -57,7 +57,7 @@ module.exports = {
           eventValidation = $("#__EVENTVALIDATION").val();
           viewStategen = $('#__VIEWSTATEGENERATOR').val();
 
-
+            console.log("cin "+viewStateval+" "+eventValidation+" "+viewStategen)
           //sending cin form
           var settings = {
 
@@ -84,6 +84,7 @@ module.exports = {
             eventValidation = $("#__EVENTVALIDATION").val();
             viewStategen = $('#__VIEWSTATEGENERATOR').val();
 
+            console.log(viewStateval+" "+eventValidation+" "+viewStategen+"/n")
 
 
             var $ = cheerio.load(html);
@@ -105,7 +106,7 @@ module.exports = {
         .catch(function (err) {
           // Crawling failed or Cheerio choked...
           reject(err);
-          console.log("getting veiwstate error", err);
+          console.log("t getting veiwstate error", err);
         });
 
 
