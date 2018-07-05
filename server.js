@@ -1,35 +1,48 @@
 //#region some important things
-var express = require('express');
-var mongoose = require('mongoose');
-var fs = require('fs');
-var request = require('request');
-var requestP = require('request-promise');
-var cheerio = require('cheerio');
-var app = express();
-var bodyParser = require('body-parser');
-var cheerioTableparser = require('cheerio-tableparser');
-var path = require('path');
-var session = require('express-session');
-var Absence = require('./app/models/absence');
-var Note = require('./app/models/note');
-var NoteR = require('./app/models/note-rattrapage');
-var Credit = require('./app/models/credit');
-var NoteLang = require('./app/models/noteLangue');
-var ResultatP = require('./app/models/resultat-principale');
-var ResultatR = require('./app/models/resultat-rattrapage');
-var viewStateval;
-var eventValidation;
-var viewStategen;
-var plus = encodeURIComponent('+');
-var login = require('./app/Auth-request');
-var test;
+const express = require('express');
+const mongoose = require('mongoose');
+const fs = require('fs');
+const request = require('request');
+const requestP = require('request-promise');
+const cheerio = require('cheerio');
+const app = express();
+const bodyParser = require('body-parser');
+const cheerioTableparser = require('cheerio-tableparser');
+const path = require('path');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const Absence = require('./app/models/absence');
+const Note = require('./app/models/note');
+const NoteR = require('./app/models/note-rattrapage');
+const Credit = require('./app/models/credit');
+const NoteLang = require('./app/models/noteLangue');
+const ResultatP = require('./app/models/resultat-principale');
+const ResultatR = require('./app/models/resultat-rattrapage');
+//var viewStateval;
+//var eventValidation;
+//var viewStategen;
+const plus = encodeURIComponent('+');
+const login = require('./app/Auth-request');
+//var test;
 //#endregion
 // BASE SETUP
 // =============================================================================
 
 
 
-mongoose.connect('mongodb://khmaies:4sim3@ds046667.mlab.com:46667/espritapp').then(
+//Set up default mongoose connection
+const mongoDB = 'mongodb://khmaies:4sim3@ds046667.mlab.com:46667/espritapp';
+/*mongoose.connect(mongoDB);
+// Get Mongoose to use the global promise library
+mongoose.Promise = global.Promise;
+//Get the default connection
+const db = mongoose.connection;
+
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+*/
+
+mongoose.connect(mongoDB).then(
     () => {
         /** ready to use. The `mongoose.connect()` promise resolves to undefined. */
         console.log('connected to db');
@@ -54,7 +67,11 @@ app.use(bodyParser.json());
 app.use(session({
     resave: false, //don't save session if unmodified
     saveUninitialized: false, //don't create session until something stored
-    secret: 'shhhh, very secret'
+    secret: 'shhhh, very secret',
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection,
+        collection: 'session',
+    })
 }));
 
 //Session-presisted message middleware
@@ -120,7 +137,6 @@ router.post('/login', function (req, res) {
 
     //will log you in to esprit-tn.com so you can access your data (accessed at POST http://localhost:8081/api/login)
     //accepts query parametres cin and password
-    console.log("cin ",req.query)
 
     login.setCIN(req.query.cin).then(function () {
         login.setPassword(req.query.password).then(function (credentiel) {
@@ -164,7 +180,7 @@ router.post('/login', function (req, res) {
         });
     }).catch(function (err) {
       //  console.log("cin function",err)
-        res.status(500).send("test "+err)
+        res.status(500).send("test "+err.message)
 
        // res.send(err);
     });
