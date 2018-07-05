@@ -31,7 +31,7 @@ const login = require('./app/Auth-request');
 
 
 //Set up default mongoose connection
-const mongoDB = 'mongodb://khmaies:4sim3@ds046667.mlab.com:46667/espritapp';
+const mongoDB = 'your mongodb url';
 /*mongoose.connect(mongoDB);
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
